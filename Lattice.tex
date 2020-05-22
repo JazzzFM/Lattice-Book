@@ -1,0 +1,369 @@
+\usepackage[spanish]{babel}
+\documentclass[12pt]{report}
+\usepackage{lmodern}
+\usepackage{natbib}
+\usepackage[T1]{fontenc}
+\usepackage{lmodern}
+\usepackage{url}
+\usepackage[utf8]{inputenc}
+\usepackage{amsmath}
+\usepackage{amssymb}
+\usepackage{graphicx}
+\graphicspath{{images/}}
+\usepackage{parskip}
+\usepackage{fancyhdr}
+\usepackage{vmargin}
+\title{1}								
+\author{Flores Rodríguez Jaziel David.}						
+\date{today}
+\makeatletter
+\let\thetitle\@title
+\let\theauthor\@author
+\let\thedate\@date
+\makeatother
+\pagestyle{fancy}
+\fancyhf{}
+\rhead{\theauthor}
+\lhead{\thetitle}
+\cfoot{\thepage}
+
+\newtheorem{conj}{Conjetura}
+\newtheorem{defi}{Definición}
+\newtheorem{teo}{Teorema}
+\newtheorem{lema}{Lema}
+\newtheorem{prop}{Proposición}
+\newtheorem{cor}{Corolario}
+\newtheorem{ex}{Ejemplo}
+\newtheorem{exer}{Exercicio}
+
+\begin{document}
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
+\begin{titlepage}
+	\centering
+    \vspace*{0.5 cm}
+   % \includegraphics[scale = 0.075]{bsulogo.png}\\[1.0 cm]	% University Logo
+\begin{center} \textsc{\Large  Centro de Investigación en Computación}\\[2.0 cm]\end{center}
+\begin{center}\textit{Matemática Detrás de la Criptografía Basada en Lattices y una Introducción al Esquema de Cifrado NTRU. }\\[2.0 cm]\end{center}
+	\rule{\linewidth}{0.2 mm} \\[0.4 cm]
+	{ \huge \bfseries \thetitle}\\
+	\rule{\linewidth}{0.2 mm} \\[1.5 cm]
+	
+	\begin{minipage}{0.4\textwidth}
+		\begin{flushleft} \large
+			\end{flushleft}
+			\end{minipage}~
+			\begin{minipage}{0.4\textwidth}
+			\begin{flushright} \large
+			\emph{Flores Rodríguez Jaziel David.} \\  
+		\end{flushright}
+           
+	\end{minipage}\\[2 cm]
+	 
+\end{titlepage}
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
+\tableofcontents
+\pagebreak
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+\renewcommand{\thesection}{\arabic{section}}
+
+\section{Definiciones Básicas.}
+ 
+\begin{defi}
+Sea $\beta = \{ {v}_{1}, ..., {v}_{n} \}\subset{\mathbb R}^{m}$ un conjunto linealmente independiente de vectores. La \textbf{Retícula} $\Lambda$ generada por $\beta$ es el conjunto de todas las combinaciones de ${v}_{1}, ..., {v}_{n}$ con coeficientes en $\mathbb{Z}$, es decir
+
+\[ \Lambda_{\beta} = \left\{ \sum _{{i=1}}^{{n}}\alpha{\mathbf  {v}}_{i} | \alpha \in \mathbb{Z},{\mathbf  {v}}_{i}\in \beta  \quad \forall i \in \{1,..., n\} \right\} \] 
+Una $\mathbb{Z}$-base para $\Lambda_{\beta}$ es cualquier conjunto de vectores que generan a $\Lambda_{\beta}$. La \textit{dimensión} de $\Lambda_{\beta}$ es la cantidad de vectores en una $\mathbb{Z}$-base para $\Lambda_{\beta}$.
+\end{defi}
+
+\begin{defi}
+	Sean $\Lambda_{\beta}$ una Retícula de dimensión n y $\beta = \{ {v}_{1}, ..., {v}_{n} \}$ una $\mathbb{Z}$-base para $\Lambda_{\beta}$. Se define el \textbf{Dominio Fundamental} para $\Lambda_{\beta}$ correspondiente a esta $\mathbb{Z}$-base, denotado como $\mathcal{F}({v}_{1}, ..., {v}_{n})$ como el conjunto: 
+\[\mathcal{F}({v}_{1}, ..., {v}_{n}) = \left\{ \sum _{{i=1}}^{{n}}\alpha{\mathbf  {v}}_{i}\quad | \quad 0 \leq \alpha_{i} < 1 \right\} \] 
+	Al volumen n-dimensional para $\mathcal{F}({v}_{1}, ..., {v}_{n})$ Dominio Fundamental, es decir al determinante de la matriz cuyas filas son los vectores ${v}_{1}, ..., {v}_{n}$, se denominará un \textbf{covolumen} para $\Lambda_{\beta}$, y es denotado por \textbf{Det($\Lambda_{\beta}$)}.
+\end{defi}
+
+\section{Teoremas Iniciales.}
+
+\begin{teo}
+    Sea $\Lambda\subset{\mathbb{R}}^{n}$ una retícula de dimensión n y sea $\mathcal{F}$ un dominio fundamental para $\Lambda$. Entonces $\forall w \in{\mathbb{R}}^{n}$ se cumple que: 
+    \begin{equation}
+        \centering
+\exists!t\in\mathcal{F} \quad y \quad \exists!v\in\Lambda \quad tales \quad que \quad w = t + v
+    \end{equation}
+    Equivalentemente, la unión de los dominios fundamentales trasladados:
+    \[\mathcal{F} + v = \{t + v \quad | \quad t \in \mathcal{F} \} \] 
+    Así $v$ se extiende sobre los vectores en la retícula $\Lambda$ cubre exactamente $\mathbb{R}^{n}$
+\end{teo}
+
+La desigualdad de Hadamard es cierta porque el volumen de un paralelepípedo nunca es mayor que el producto de las longitudes de sus lados. La desigualdad de Hadamard es una igualdad, si y sólo si, los vectores base son ortogonales (perpendiculares) entre sí. En medida de que es desigualdad mide la caracteristica de que la base no es ortogonal.
+
+\begin{teo}{Desiguadad de Hadamard} 
+Sea $\Lambda$ una retícula, sea cualquier ${v}_{1}, ...,{v}_{n}$ una $\mathbb{Z}$-base para $\Lambda$, y sea $\mathcal{F}({v}_{1},...,{v}_{n})$ un dominio fundamental para $\Lambda$. Entonces: \\
+\begin{equation}
+\centering
+Det(\Lambda) \leq Vol(\mathcal{F}) \leq ||\mathbf{v}_{1}|| \cdot ||\mathbf{v}_{2}|| \cdot ... \cdot ||\mathbf{v}_{n}||.
+\end{equation}
+\end{teo}
+
+Un famoso teorema de Hermite dice que cada Lattice tiene una base que es razonablemente ortogonal, donde la cantidad de no ortogonalidad está limitada únicamente en términos de la dimensión.
+
+\begin{cor}
+Sea $\Lambda\subset{\mathbb{R}}^{n}$ una retícula de dimensión n. Entonces cada fominio fundamental de $\Lambda$ tiene el mismo volumen. Por lo tanto Det($\mathcal{F}$) es un invariante de la retícula $\Lambda$, independiente del dominio fundamental particular usado para calcularlo.
+\end{cor}
+
+\begin{ex}
+Considere una retícula 3-dimensinal $\Lambda\subset \mathbb{R}^3$, generada por los vectores:
+        $v_{1} = (2,1,3)$, $v_{2} = (1,2,0)$ y $v_{3} = (2,-3,-5)$ \\
+Es conveniente formar una matriz con los vectores anteriores como filas de la matriz:
+ \[A = \left(\begin{smallmatrix}
+2 &  1 &  3\\
+1 &  2 &  0\\
+2 & -3 & -5
+\end{smallmatrix}\right)
+\]
+Se crean los siguientes vectores en $\Lambda$:\\
+$w_{1}=v_{1} + v_{3}$, $w_{2}=v_{1} - v_{2} + 2v_{3}$, y $w_{3} = v_{1} + 2v_{2}$ \\
+Esto equivale a multiplicar la matriz A por la izquierda por:
+ \[U = \left(\begin{smallmatrix}
+1 &  0 &  1 \\
+1 & -1 &  2 \\
+1 & 2 & -5
+\end{smallmatrix}\right)
+\]
+Y buscamos que $w_{1}, w_{2}, w_{3}$ sean las filas de la matriz: 
+\[B = UA = \left(\begin{smallmatrix}
+4 &  5 & 4 \\
+5 & -7 & -7 \\
+4 & 5 & 3
+\end{smallmatrix}\right)
+\]
+La matriz U tiene determinante -1, así pues los vectores $w_{1}, w_{2}, w_{3}$ son también una $\mathbb{Z}$-base para $\Lambda$
+
+\end{ex}
+\newpage
+
+\section{Los Problemas del Vector Más Corto y El Más Cercano}
+Los problemas computacionales asociados a retículas son aquellos en los cuales encontrar el vector no nulo más corto en una retícula y encontrar un vector la retícula que es más cercano a un vector dado que no está en ella.
+
+\begin{itemize}
+\item  \textbf{Shortest Vector Problem (SVP)}:\\
+Encontrar el vector no nulo más corto en la retícula $\Lambda$, es i.e. encontrar un vector no nulo $v\in\Lambda$ que minimiza la norma Euclidiana $||v||$.
+\item \textbf{Closest Vector Problem (CVP)}:\\
+Dado un vector $w \in \mathbb{R}^{m}$ tal que no esté en $\Lambda$. Encontrar un vector  $v \in \Lambda$ más cercano a $w$, i.e. encontrar un vector $v \in \Lambda$ que minimiza la norma Euclidiana  $||w-v||$.
+\end{itemize}
+Se sabe que \textbf{CVP} es $\mathcal{NP}$-hard y \textbf{SVP} es $\mathcal{NP}$-hard bajo la hipótesis de reducción aleatoria. \textbf{CVP} está considerada como más compleja que \textbf{SVP}.
+
+\section{Algunas Variantes de los Problemas}
+\begin{block}{Observación}
+Existen muchas variantes de \textbf{SVP} y \textbf{CVP} que surgen tanto en la teoría como en la práctica. 
+    \end{block}
+
+\begin{itemize}
+\item  \textbf{Shortest Basis Problem (SBP)}:\\
+Encontrar una $\mathbb{Z}$-base ${v}_{1}, {v}_{2}, ..., {v}_{n}$ para una retícula que es la más corta en el sentido de su norma. Se requiere que $\displaystyle\max_{1 \leq i \leq  n}||{v}_{i}||$ sea mínimo.
+\item \textbf{The Approximate Closest Vector Problem (apprCVP)}\\
+Dado $w\in\mathbb{R}^{n}$, encontrar un vector $v \in \Lambda$ tal que $||v-w||$ es pequeña.\\
+O bien $||v -w ||\leq k \displaystyle\min_{u \in \Lambda}||u-w|| $  Para una constante $k$ pequeña \\.
+\item \textbf{The Approximate Shortest Vector Problem (apprSVP)}
+\end{itemize}
+\pagebreak 
+
+\section{Los Teoremas de Hermite y Minkowski}
+\begin{alertblock}{Teorema de Hermite:}
+En cada retícula $\Lambda$ de dimensión $n$ existe in vector no nulo $v \in \Lambda$ que satisface:
+\begin{equation}
+\centering
+||v|| \leq \sqrt{n}\cdot Det(\Lambda)^{\frac{1}{n}}
+\end{equation}
+\end{alertblock}
+    \begin{block}{Observación}
+Para dada una dimensión $n$, la constante de Hermite $\gamma_{n}$ es el valor más pequeño tal que para cada retícula $\Lambda$ de dimensión $n$ contiene un vector no nulo $v\in\Lambda$ que satisface:
+\begin{equation}
+\centering
+||v||^{2} \leq {\gamma}_{n}\cdot Det(\Lambda)^{\frac{2}{n}}
+\end{equation}
+Esto nos dice que $\gamma_{n} \leq n$.
+\end{block}
+
+
+Los valores exctos de $\gamma_{n}$ son conocidos para $1 \leq n \leq 8$ y para $n=24$:
+\begin{table}[h]
+	    \centering
+	        \begin{tabular}{| c | c | c | c | c | c | c | c |}
+			        \hline 
+				${\gamma_{2}}^{2}$ & ${\gamma_{3}}^{3}$ & ${\gamma_{4}}^{4}$ & ${\gamma_{5}}^{5}$ & ${\gamma_{6}}^{6}$ & ${\gamma_{7}}^{7}$ & ${\gamma_{8}}^{8}$ & ${\gamma_{24}}^{24}$ \\
+				\hline
+				$\frac{4}{3}$ & 2 & 4 & 8 & $\frac{64}{3}$ & 64 & 256 & 4 \\
+				\hline
+				    \end{tabular}
+\end{table}
+
+Para propósitos dentro de la criptografía estamos principalmente ineresados en el valor de $\gamma_{n}$ cuando $n$ es grande. Para valores grandes de $n$ es conocido que la constante de Hermite satisface:
+\begin{equation}
+	\centering
+	\frac{n}{2\pi e} \leq \gamma_{n} \leq \frac{n}{\pi e}
+\end{equation}
+\begin{block}{Observación}
+	Se puede probar que una retícula $\Lambda$ $n$-dimensional siempre tiene una base ${v}_{1},...,{v}_{n}$ satisface: 
+	\begin{equation}
+		\centering
+		||{v}_{1}|| \cdot \cdots \cdots \leq n^{\frac{n}{2}}\cdot Det(\Lambda)
+	\end{equation}
+\end{block}
+
+\begin{defi}
+Una región $\mathcal{R} \subset$ \textbf{V} se dice de Minkowski cumple las siguientes condiciones:
+\begin{table}[h]
+\centering
+\begin{tabular}{| c |}
+\hline
+\textbf{Compacto:} Es decir que sea cerrado y acotado\\
+\textbf{Convexo:} Es decir, si $\mathbf{u,w}\in \mathcal{R}$ entonces  $\mathbf{seg[u,v]} \subset \mathcal{R}$\\
+\textbf{Simétrico:} $\forall \mathbf{v} \in \mathcal{R}$ implica $\mathbf{-v} \in \mathcal{R}$\\
+\hline
+\end{tabular}
+\end{table}
+\end{defi}
+
+\begin{teo}
+Sea $\Lambda \subset \mathbb{R}^{n}$ una retícula de dimensión $n$ y sea $\mathcal{R} \subset \mathbb{R}^{n}$ una región de Minkowski cuyo volumen satisface:
+\[ 2^{n}\cdot Det(\Lambda) \leq Vol(\mathcal{R}) \]
+Entonces $\mathcal{R}$ contiene un vector no nulo en la retícula.
+\end{teo}
+
+\section{La Heurística Gaussiana}
+\begin{defi} 
+La función gamma $\Gamma(s)$ está definida para $s>0$ por la integral:
+ \[ \Gamma(s) = \int_{0}^{\infty} t^{s-1}e^{-t} dt \]
+ La bola cerrada $\mathbb{B}_{R}(0)$ con centro en el origen y radio R, es compacto, convexo, y simétrico, cumple el Teorema de Minkowski dice que si se escoge R tal que:
+ \[ 2^{n}\cdot Det(\Lambda) \leq Vol(\mathbb{B}_{R}(0)) \]
+ Entonces la bola $\mathbb{B}_{R}(0)$ contiene un vector no nulo de la retícula. Asumiendo que $n$ es grande, podemos aproximar el volumen de $\mathbb{B}_{R}(0)$ y eligiendo R que satisface:
+  \[\sqrt{\frac{2 \pi e}{n}} R \gtrapprox 2 \cdot Det(\Lambda)^{1/n}\]
+\end{defi}
+
+
+ Por lo tanto para una $n$ grande existe un vector no nulo $v \in \Lambda$ satisface:
+ \[\sqrt{\frac{2 n}{\pi e}}\cdot Det(\Lambda)^{1/n} \gtrapprox ||v||\]
+Aunque los límites exactos para el tamaño de un tamaño del vector más corto son desconocidos cuando la dimensión $n$ es grande, podemos estimar su tamaño mediante un argumento probabilístico que se basa en el siguiente principio.
+\begin{block}{Principio}
+        Sea $\mathbb{B}_{R}$(0) una bola centrada en el origen muy grande. El número de puntos de la retícula $\Lambda$ en $\mathbb{B}_{R}$(0) es aproximadamente igual al volumen de $\mathbb{B}_{R}$(0) dividido por el volumen del Dominio Fundamental $\mathcal{F}$.
+    \end{block}
+
+Asuminendo que $n$ es grande, se hace una estimación y así se tiene: 
+ \[ \left( \frac{2 \pi e}{n} \right)^{n/2} \thickapprox Vol[\mathbb{B}_{R}(0)]\]
+Y así se cumple que $R \thickapprox \sqrt{n/2 \pi e}\cdot (Det(\Lambda))^{1/n}$ \\
+\begin{defi} 
+Sea $\Lambda$ una retícula de dimensión n. \textbf{La Longitud Gaussiana esperada más corta}, denotada por $\sigma(\Lambda)$, es: 
+ \[ \sigma(\Lambda) = \sqrt{\frac{n}{2 \pi e}}\cdot(Det(\Lambda))^{1/n}\]
+Lo que la Heurística Gaussiana nos dice es que un vector más corto no nulo en una retícula elegida al azar, satisfará que: 
+\[ |||v_{shortest} || \thickapprox \sigma(\Lambda)\]
+\end{defi}
+
+\section{El Algoritmo de Babai y El Uso de "Buenas" $\mathbb{Z}$-bases en \textbf{apprCVP}}
+Si una retícula $\Lambda \subset \mathbb{R}^{n}$ con una $\mathbb{Z}$-base $\mathbf{v_{1}},..., \mathbf{v_{n}}$ que consiste de vectores que son mutuente ortogonales, i.e tales que:
+
+\[ \mathbf{v_{i}}\cdot \mathbf{v_{j}} = 0 \quad \forall i \neq j \]
+
+Entonces es más fácil resolver tanto \textbf{SVP} Y \textbf{CVP}. Ahora, para resolver \textbf{SVP} entonces observamos que la longitud de cualquier vector en $\Lambda$ está dada por la fórmula:
+
+\[ ||\alpha_{1}\mathbf{v_1} + \alpha_{1}\mathbf{v_1} + ... + \alpha_{n}\mathbf{v_n}||^{2} = \alpha_{1}^{2}||\mathbf{v_1}||^{2} + \alpha_{2}^{2}||\mathbf{v_2}||^{2} + ... + \alpha_{n}^{2}||\mathbf{v_n}||^{2} \]
+
+Entonces $a_{1},...,a_{n} \in \mathbb{Z}$, entonces vemos que el vector (o los vectores) más corto(s) no nulo(s) en $\Lambda$ son simplemente los vectores más pequeños en el conjunto \{$ \pm \mathbf{v_1}, ..., \pm \mathbf{v_n}$\}
+
+Similarmente, suponga que se quiere encontrar el vector en $\Lambda$ que es más cercano a dado un vector $\mathbf{w} \in \mathbb{R}^{n}$. Entonces primero escribimos en términos:
+\[ \mathbf{w} = t_{1}\mathbf{v_1} + t_{2}\mathbf{v_2} + ... + t_{n}\mathbf{v_n} \quad con \quad t_{1},...,t_{n} \in \mathbb{R}^{n}\] 
+Entonces para $\mathbf{v} = \alpha_{1}\mathbf{v_1} + ... + \alpha_{n}\mathbf{v_n} \in \Lambda$, tenemos: 
+\[|| \mathbf{v} - \mathbf{w}||^{2} = (\alpha_{1} - t_{1})^{2}||\mathbf{v_{1}}||^{2} + ... + (\alpha_{1} - t_{1})^{2}||\mathbf{v_{1}}||^{2}  \]
+Los escalares $\alpha_{i}$ requieren ser enteros, entonces la ecuación anterior debería ser minimizada si tomamos cada $\alpha_i$ como el entero más cercano al correstopndeinte $t_i$. Es tentador probar un procedimiento similar con una base arbitraria de L. Si los vectores en la base son razonablemente ortogonales entre sí, entonces es probable que tengamos éxito en la resolución de CVP; pero sino, entonces el procedimiento no funciona bien.
+
+El \textbf{Teorema 1} dice que las traslaciones de $\mathcal{F}$ por los elementos de $\Lambda$ llenan todo el espacio $\mathbb{R}^{n}$, por lo que cualquier $\mathbf{w} \in \mathbb{R}^{n}$ está en una traslación única $\mathcal{F} + \mathbf{v}$ de $\mathcal{F}$ por un elemento $\mathbf{v} \in \Lambda$. Tomamos el vértice de la paralelepípedo $\mathcal{F} + \mathbf{v}$ que está más cerca de $\mathbf{w}$ como nuestra solución hipotética para \textbf{CVP}. Este procedimiento se ilustra. Es fácil encontrar el vértice más cercano, ya que:
+ \[\mathbf{w} = \mathbf{v} + \epsilon_{1}\mathbf{v_1} + \epsilon_{2}\mathbf{v_2} + ... + \epsilon_{n}\mathbf{v_{n}} \quad para \quad 0 \leq \epsilon_{1}, \epsilon_{2}, ... , \epsilon_{n} < 1\]
+ Así que simplemente reemplazamos $\epsilon_{i}$ por 0 si es menor que $\frac{1}{2}$ y lo reemplazamos por 1 si es mayor o igual a $\frac{1}{2}$.
+
+\begin{teo}
+    Sea $\Lambda\subset{\mathbb{R}}^{n}$ una retícula de dimensión n con la $\mathbb{Z}$- base formada por los vectores $\mathbf{v_1}, ... ,\mathbf{v_n} $, y sea $\mathbf{w}\in \mathbb{R}^{n}$ un vector arbirario. Si los vectores base son suficientemente ortogonales mutuamente, entonces el siguiente algoritmo resuelve \textbf{CVP}.
+    \begin{table}[h]
+        \centering
+        \begin{tabular}{| c |}
+        \hline
+\textbf{Sea:} $\mathbf{w} = t_{1}\mathbf{v_1} + t_{2}\mathbf{v_2} + ... + t_{n}\mathbf{v_n}$ con $t_{1}, ..., t_{n}\in \mathbb{R}$   \\
+\textbf{Tome:} $\alpha_{i} = \lfloor t_{i} \rfloor$ $\forall i \in \{1,2,...,n\}$ \\
+\textbf{Regrese el vector: } $\mathbf{v} = \alpha_{1}\mathbf{v_1} +  \alpha_{2}\mathbf{v_2} + ... +  \alpha_{n}\mathbf{v_n}.$\\
+        \hline
+        \end{tabular}
+        \label{tab:my_label}
+    \end{table}
+En general, si los vectores en la base son razonablemente ortogonales entre sí, entonces el algoritmo resuelve alguna versión de \textbf{apprCVP}, pero si los vectores base son altamente no ortogonales, entonces el vector devuelto por el algoritmo generalmente está lejos del vector dentro de la reticula que está más cercano a \textbf{w}.
+\end{teo}
+
+
+\begin{ex}
+Considere una retícula 2-dimensinal $\Lambda\subset \mathbb{R}^3$, generada por los vectores:\\
+        $v_{1} = (137,312)$, y $v_{2} = (215,-187)$ \\
+Vamos a usar el algoritmo de Babai para encontrar el vector más corto al vector $w = (53172, 81743)$.
+El primer paso es exprear a $w$ como combinación linal de los vectores base. Para eso usaremos álgebra lineal.
+\[ w = t_{1}\mathbf{v_1} + t_{2}\mathbf{v_2} \]
+Esto nos da dos ecuaciones lineales
+\[53172 = 137t_{1} + 215t_{2}, 81743 = 312t_{1} - 187t_{2}\]
+Es decir:
+ \[ (53172, 81743) = (t_{1},t_{2}) \left(\begin{smallmatrix}
+137 &  312 \\
+215 & -187 \\
+\end{smallmatrix}\right)
+\]
+Resolviendo se tiene que $t_1$ = 296.85 y $t_2$ = 58.15. Entonces tenemos que aproximar a su parte entera. Así:\\
+$\mathbf{v} = \lfloor t_1 \rfloor \mathbf{v_1} + \lfloor t_2 \rfloor \mathbf{v_2}= 297(137, 312) + 58(215, −187)$ \\
+$= (53159, 81818). $
+Luego: $||\mathbf{v}-\mathbf{w}|| = 76.12.$\\
+Mientras que si usamos $u_1 = (1975, 438)$ y $u_2= (7548, 1627)$ como
+$\mathbb{Z}$-base obtenemos $||\mathbf{v}-\mathbf{w}|| = 3308.12.$
+\end{ex}
+
+\begin{defi}
+\textbf{Reducción de una Retícula:} El nombre dado al problema práctico de resolver SVP y CVP, o más generalmente de encontrar vectores razonablemente cortos y bases \textit{buenas} o más convenientes.\\
+\end{defi}
+
+Suponga que tiene un conjunto linealmente independiente de vectores $\{ \mathbf{v_1},...,\mathbf{v_n}\}$ y después del proceso de ortogonalizaión de Gram-Schmidth se obtiene un conjunto $\{\mathbf{v*_{1}},...,\mathbf{v*_{n}}\}$. Si algún coeficiente en el proceso de satisface:
+\[ \frac{|\mathbf{v_{i}} \cdot \mathbf{ {v*}_{j} } |}{||\mathbf{{v*}_{j}} ||^2 } > \frac{1}{2}\]
+
+Luego reemplazando ${v}_{i}$ por ${v}_{i}-a{v}_{j}$ con un $a$ apropiado en $\mathbb{Z}$ hace que el coeficiente sea más pequeño. Decimos que una base satisface la \textbf{Condición de Tamaño} si:
+
+\[\frac{|\mathbf{v_{i}} \cdot \mathbf{ {v*}_{j} } |}{||\mathbf{{v*}_{j}} ||^2 } \leq \frac{1}{2} \quad \forall i<j \]
+
+\section{El Algoritmo LLL}
+Para equilibrar esto, queremos que los vectores base sean lo más ortogonales entre sí, por lo que imponemos la \textbf{Condición de Pseudo-Ortogonalidad}:
+
+\[|| \mathbf{{v*}_{i+1}} || \geq \frac{\sqrt{3}}{2}||\mathbf{{v*}_{i}} || \]
+
+Desafortunadamente, los algoritmos más conocidos para encontrar esa base son exponenciales en la dimensión. Entonces cambiamos la Condición de pseudo-ortogonalidad a una menos escritcta, la \textbf{Condición de Lovász}:
+
+\[|| \mathbf{{v*}_{i+1}} || \geq \sqrt{ \frac{3}{4} - \frac{|\mathbf{v_{i+1}} \cdot \mathbf{ {v*}_{i} }|}{|| \mathbf{{v}_{i} }||^2}}||\mathbf{{v*}_{i}} || \]
+\end{frame}
+
+\begin{teo}
+\textbf{Hermite}\\
+En cada retícula existe una base que satisface tanto la Condición de tamaño como la Condición de pseudo-ortogonalidad. \textbf{Demostración.}[5]\\
+\end{teo}
+
+
+
+\newpage
+
+
+\begin{thebibliography}{111}
+   
+	\bibitem{Simon}
+D. Simon, Selected applications of LLL in number theory,
+Bosma, Wieb. "4. LLL" (PDF). Lecture notes, 2010
+	
+	\bibitem{SilverInt}
+An Introduction to Mathematical Criptography, Springer; 2 edition,
+2018, Jeffrey Hoffstein, Jill Pipher, Jose Silverman
+
+\end{thebibliography}
+
+\end{document}

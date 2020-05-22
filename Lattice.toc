@@ -1,0 +1,8 @@
+\contentsline {section}{\numberline {1}Definiciones Básicas.}{2}%
+\contentsline {section}{\numberline {2}Teoremas Iniciales.}{2}%
+\contentsline {section}{\numberline {3}Los Problemas del Vector Más Corto y El Más Cercano}{4}%
+\contentsline {section}{\numberline {4}Algunas Variantes de los Problemas}{4}%
+\contentsline {section}{\numberline {5}Los Teoremas de Hermite y Minkowski}{5}%
+\contentsline {section}{\numberline {6}La Heurística Gaussiana}{6}%
+\contentsline {section}{\numberline {7}El Algoritmo de Babai y El Uso de "Buenas" $\mathbb {Z}$-bases en \textbf {apprCVP}}{7}%
+\contentsline {section}{\numberline {8}El Algoritmo LLL}{10}%
